@@ -1,0 +1,17 @@
+The organizer should create an event stating how many seats of each category are present, when and where the event is going to be placed.
+
+The organizer should be able to create special promotions at any time.
+
+The organizer should be able to limit the number of tickets each client can purchase per-request.
+
+All event sales should be placed early.
+
+The refund policies should be clearly stated for every party involved.
+
+This project should implement a queueing system when the final customer wants to attend an event.
+
+The customer should be able to report events as possible scams.
+
+The main webpage should have banners for upcoming shows, movies and other events.
+
+The devops folder should have the necessary tools to build and deploy each component of the app
