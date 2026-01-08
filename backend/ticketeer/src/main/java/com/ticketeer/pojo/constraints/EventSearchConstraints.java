@@ -1,18 +1,17 @@
 package com.ticketeer.pojo.constraints;
 
 import com.ticketeer.constants.EventStatus;
-import com.ticketeer.pojo.model.City;
-import com.ticketeer.pojo.model.Venue;
-import com.ticketeer.pojo.model.Organizer;
+import com.ticketeer.pojo.dto.OrganizerDto;
+import com.ticketeer.pojo.dto.VenueDto;
 import lombok.Data;
 
 @Data
 public class EventSearchConstraints {
     private boolean isFeatured;
-    private City city;
-    private Venue venue;
+    private String city;
+    private VenueDto venue;
     private String dateRangeBeginning;
     private String dateRangeEnding;
-    private Organizer organizer;
+    private OrganizerDto organizer;
     private EventStatus eventStatus;
 }

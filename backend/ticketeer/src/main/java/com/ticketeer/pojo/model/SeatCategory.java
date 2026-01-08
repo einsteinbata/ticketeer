@@ -1,4 +1,4 @@
-package com.ticketeer.pojo;
+package com.ticketeer.pojo.model;
 
 import lombok.Data;
 

@@ -2,13 +2,14 @@ package com.ticketeer.service.impl;
 
 import com.ticketeer.exceptions.FieldValidationError;
 import com.ticketeer.exceptions.ResourceNotFoundError;
-import com.ticketeer.pojo.model.Venue;
+import com.ticketeer.pojo.dto.EventDto;
+import com.ticketeer.pojo.dto.OrganizerDto;
+import com.ticketeer.pojo.dto.VenueDto;
 import com.ticketeer.pojo.constraints.EventSearchConstraints;
 import com.ticketeer.pojo.io.AddEventInput;
 import com.ticketeer.pojo.io.AddEventOutput;
 import com.ticketeer.pojo.io.GetEventsOutput;
 import com.ticketeer.pojo.model.Event;
-import com.ticketeer.pojo.model.Organizer;
 import com.ticketeer.repository.EventRepository;
 import com.ticketeer.repository.OrganizerRepository;
 import com.ticketeer.repository.VenueRepository;
@@ -46,23 +47,25 @@ public class EventServiceImpl implements EventService {
             System.out.println("Adding event: " + addEventInput.toString());
             ValidationUtil.validateAddEventInput(addEventInput);
 
-            Organizer organizer = organizerRepository.getOrganizerById(addEventInput.getOrganizerId());
-            if(Objects.isNull(organizer))
+            OrganizerDto organizerDto = organizerRepository.getReferenceById(addEventInput.getOrganizerId());
+            if(Objects.isNull(organizerDto))
                 throw new ResourceNotFoundError("Could not find organizer for ID " + addEventInput.getOrganizerId());
 
-            Venue venue = venueRepository.getVenueById(addEventInput.getVenueId());
-            if(Objects.isNull(venue))
+            VenueDto venueDto = venueRepository.getReferenceById(addEventInput.getVenueId());
+            if(Objects.isNull(venueDto))
                 throw new ResourceNotFoundError("Could not find venue for ID " + addEventInput.getVenueId());
 
-            Event event = ObjectMapper.inputToModel(addEventInput);
-            event.setVenue(venue);
-            event.setOrganizer(organizer);
+            EventDto eventDto = ObjectMapper.inputToDto(addEventInput);
+            eventDto.setVenueId(venueDto.getVenueId());
+            eventDto.setOrganizerId(organizerDto.getOrganizerId());
 
-            Event savedEvent = eventRepository.saveEvent(event);
-
+            EventDto savedEvent = eventRepository.save(eventDto);
             System.out.println("Event created: " + savedEvent.toString());
 
-            addEventOutput.setEvent(savedEvent);
+            Event event = ObjectMapper.dtoToModel(savedEvent);
+            System.out.println("Event mapped to Output: " + event);
+
+            addEventOutput.setEvent(event);
 
         } catch (FieldValidationError err) {
             System.err.println(err);

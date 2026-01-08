@@ -1,7 +1,6 @@
 package com.ticketeer.pojo.io;
 
-import com.ticketeer.pojo.SeatArrangement;
-import com.ticketeer.pojo.ServiceInput;
+import com.ticketeer.pojo.model.SeatArrangement;
 import lombok.Data;
 
 @Data

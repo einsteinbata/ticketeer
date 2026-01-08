@@ -1,7 +1,7 @@
 package com.ticketeer.service.impl;
 
 import com.ticketeer.exceptions.FieldValidationError;
-import com.ticketeer.pojo.model.Venue;
+import com.ticketeer.pojo.dto.VenueDto;
 import com.ticketeer.pojo.constraints.VenueSearchConstraints;
 import com.ticketeer.pojo.io.AddVenueInput;
 import com.ticketeer.pojo.io.AddVenueOutput;
@@ -12,6 +12,11 @@ import com.ticketeer.util.ObjectMapper;
 import com.ticketeer.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class VenueServiceImpl implements VenueService {
@@ -33,9 +38,9 @@ public class VenueServiceImpl implements VenueService {
         try{
             ValidationUtil.validateAddVenueInput(addVenueInput);
 
-            Venue venue = ObjectMapper.inputToModel(addVenueInput);
+            VenueDto venueDto = ObjectMapper.inputToDto(addVenueInput);
 
-            Venue savedVenue = venueRepository.saveVenue(venue);
+            VenueDto savedVenue = venueRepository.save(venueDto);
 
             System.out.println("Venue created " + savedVenue.toString());
 
@@ -50,8 +55,32 @@ public class VenueServiceImpl implements VenueService {
 
     @Override
     public GetVenuesOutput getVenues(VenueSearchConstraints getVenuesSearchConstraints) {
+        GetVenuesOutput getVenuesOutput = new GetVenuesOutput();
 
         System.out.println("Listing venues by constraints: " + getVenuesSearchConstraints);
+
+        List<VenueDto> venuesList;
+
+        if(Objects.isNull(getVenuesSearchConstraints)){
+            venuesList = venueRepository.findAll();
+            getVenuesOutput.setVenueList(venuesList);
+            return getVenuesOutput;
+        }
+
+        if(Objects.nonNull(getVenuesSearchConstraints.getId())){
+            VenueDto venue = null;
+
+            Optional<VenueDto> venueDtoOptional = venueRepository.findById(getVenuesSearchConstraints.getId());
+
+            if(venueDtoOptional.isPresent()){
+                venue = venueDtoOptional.get();
+                venuesList = new ArrayList<>();
+                venuesList.add(venue);
+                getVenuesOutput.setVenueList(venuesList);
+                return getVenuesOutput;
+            }
+
+        }
 
         return new GetVenuesOutput();
     }

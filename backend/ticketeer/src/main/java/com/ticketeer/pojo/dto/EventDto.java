@@ -2,9 +2,13 @@ package com.ticketeer.pojo.dto;
 
 import com.ticketeer.constants.EventStatus;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Entity(name = "event")
 public class EventDto {
     @Id
@@ -14,17 +18,23 @@ public class EventDto {
     private boolean isFeatured;
     @Column(name = "seat_arrangement")
     private String seatArrangementJson;
-    @Column
+    @Column(nullable = false)
     private String eventDate;
+
     @Column(nullable = false)
     private EventStatus eventStatus;
-    @ManyToOne
-    @JoinColumn(name = "venue_id", nullable = false)
-    private VenueDto venue;
-    @ManyToOne
-    @JoinColumn(name = "organizer_id", nullable = false)
-    private OrganizerDto organizer;
+
+    @Column(nullable = false)
+    private Long venueId;
+
+    @Column(nullable = false)
+    private Long organizerId;
     @Column
     private int maxTicketsPerPurchase;
+
+    public EventDto(){
+        this.isFeatured = false;
+        this.eventStatus = EventStatus.PRE_SALE;
+    }
 
 }

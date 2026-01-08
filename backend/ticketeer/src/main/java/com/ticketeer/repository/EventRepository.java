@@ -1,7 +1,7 @@
 package com.ticketeer.repository;
 
-import com.ticketeer.pojo.model.Event;
+import com.ticketeer.pojo.dto.EventDto;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface EventRepository {
-    Event saveEvent(Event event);
+public interface EventRepository extends JpaRepository<EventDto,Long> {
 }

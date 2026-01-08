@@ -1,6 +1,5 @@
 package com.ticketeer.pojo.io;
 
-import com.ticketeer.pojo.ServiceInput;
 import lombok.Data;
 
 @Data

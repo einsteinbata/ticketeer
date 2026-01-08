@@ -1,10 +1,10 @@
 package com.ticketeer.service.impl;
 
 import com.ticketeer.exceptions.FieldValidationError;
+import com.ticketeer.pojo.dto.OrganizerDto;
 import com.ticketeer.pojo.io.AddOrganizerInput;
 import com.ticketeer.pojo.io.AddOrganizersOutput;
 import com.ticketeer.pojo.io.GetOrganizersOutput;
-import com.ticketeer.pojo.model.Organizer;
 import com.ticketeer.repository.OrganizerRepository;
 import com.ticketeer.service.OrganizerService;
 import com.ticketeer.util.ObjectMapper;
@@ -31,9 +31,9 @@ public class OrganizerServiceImpl implements OrganizerService {
         try {
             ValidationUtil.validateAddOrganizerInput(addOrganizerInput);
 
-            Organizer organizer = ObjectMapper.inputToModel(addOrganizerInput);
+            OrganizerDto organizerDto = ObjectMapper.inputToDto(addOrganizerInput);
 
-            Organizer savedOrganizer = organizerRepository.saveOrganizer(organizer);
+            OrganizerDto savedOrganizer = organizerRepository.save(organizerDto);
 
             System.out.println("Organizer created: " + savedOrganizer.toString());
 

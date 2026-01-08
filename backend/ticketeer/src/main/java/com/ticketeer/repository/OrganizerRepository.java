@@ -1,8 +1,7 @@
 package com.ticketeer.repository;
 
-import com.ticketeer.pojo.model.Organizer;
+import com.ticketeer.pojo.dto.OrganizerDto;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface OrganizerRepository {
-    Organizer getOrganizerById(Long organizerId);
-    Organizer saveOrganizer(Organizer organizer);
+public interface OrganizerRepository extends JpaRepository<OrganizerDto,Long> {
 }

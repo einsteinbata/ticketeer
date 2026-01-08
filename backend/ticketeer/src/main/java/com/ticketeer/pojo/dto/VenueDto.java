@@ -1,19 +1,20 @@
 package com.ticketeer.pojo.dto;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Entity(name = "venue")
 public class VenueDto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long venueId;
-
-    @OneToMany(mappedBy = "venue", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<EventDto> events;
 
     @Column(nullable = false)
     private String venueName;
@@ -21,7 +22,7 @@ public class VenueDto {
     @Column(nullable = false)
     private String venueCity;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String venueCoordinates;
 
     @Column
@@ -32,4 +33,5 @@ public class VenueDto {
 
     @Column(nullable = false)
     int capacity;
+
 }

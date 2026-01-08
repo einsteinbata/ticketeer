@@ -1,47 +1,61 @@
 package com.ticketeer.util;
 
-import com.ticketeer.pojo.model.Venue;
+import com.google.gson.Gson;
+import com.ticketeer.pojo.dto.EventDto;
+import com.ticketeer.pojo.dto.OrganizerDto;
+import com.ticketeer.pojo.dto.VenueDto;
 import com.ticketeer.pojo.io.AddEventInput;
 import com.ticketeer.pojo.io.AddOrganizerInput;
 import com.ticketeer.pojo.io.AddVenueInput;
 import com.ticketeer.pojo.model.Event;
-import com.ticketeer.pojo.model.Organizer;
+import com.ticketeer.pojo.model.SeatArrangement;
 
 public class ObjectMapper {
 
-    //Maps AddVenueInput to Venue basic model
-    public static Venue inputToModel(AddVenueInput addVenueInput){
-        Venue venue = new Venue();
+    public static VenueDto inputToDto(AddVenueInput addVenueInput){
+        VenueDto venueDto = new VenueDto();
 
-        venue.setVenueName(addVenueInput.getVenueName());
-        venue.setVenueCity(addVenueInput.getVenueCity());
-        venue.setVenueCoordinates(addVenueInput.getVenueCoordinates());
-        venue.setManagementEmail(addVenueInput.getManagementEmail());
-        venue.setManagementPhone(addVenueInput.getManagementPhone());
-        venue.setCapacity(addVenueInput.getCapacity());
+        venueDto.setVenueName(addVenueInput.getVenueName());
+        venueDto.setVenueCity(addVenueInput.getVenueCity());
+        venueDto.setVenueCoordinates(addVenueInput.getVenueCoordinates());
+        venueDto.setManagementEmail(addVenueInput.getManagementEmail());
+        venueDto.setManagementPhone(addVenueInput.getManagementPhone());
+        venueDto.setCapacity(addVenueInput.getCapacity());
 
-        return venue;
+        return venueDto;
     }
 
-    //Maps AddOrganizerInput to Organizer basic model
-    public static Organizer inputToModel(AddOrganizerInput addOrganizerInput){
-        Organizer organizer = new Organizer();
+    public static OrganizerDto inputToDto(AddOrganizerInput addOrganizerInput){
+        OrganizerDto organizerDto = new OrganizerDto();
 
-        organizer.setOrganizerName(addOrganizerInput.getOrganizerName());
-        organizer.setOrganizerEmail(addOrganizerInput.getOrganizerEmail());
-        organizer.setOrganizerPhoneNumber(addOrganizerInput.getOrganizerPhoneNumber());
-        organizer.setOrganizerAddress(addOrganizerInput.getOrganizerAddress());
+        organizerDto.setOrganizerName(addOrganizerInput.getOrganizerName());
+        organizerDto.setOrganizerEmail(addOrganizerInput.getOrganizerEmail());
+        organizerDto.setOrganizerPhoneNumber(addOrganizerInput.getOrganizerPhoneNumber());
+        organizerDto.setOrganizerAddress(addOrganizerInput.getOrganizerAddress());
 
-        return organizer;
+        return organizerDto;
     }
 
-    //Maps AddEventInput to Event basic model
-    public static Event inputToModel(AddEventInput addEventInput){
+    public static EventDto inputToDto(AddEventInput addEventInput){
+        EventDto eventDto = new EventDto();
+
+        eventDto.setSeatArrangementJson(addEventInput.getSeatArrangement().toJson());
+        eventDto.setEventDate(addEventInput.getEventDate());
+        eventDto.setMaxTicketsPerPurchase(addEventInput.getMaxTicketsPerPurchase());
+
+        return eventDto;
+    }
+
+    public static Event dtoToModel(EventDto eventDto){
         Event event = new Event();
 
-        event.setSeatArrangement(addEventInput.getSeatArrangement());
-        event.setEventDate(addEventInput.getEventDate());
-        event.setMaxTicketsPerPurchase(addEventInput.getMaxTicketsPerPurchase());
+        event.setEventId(eventDto.getEventId());
+        event.setFeatured(eventDto.isFeatured());
+        event.setSeatArrangement(new Gson().fromJson(eventDto.getSeatArrangementJson(), SeatArrangement.class));
+        event.setEventDate(event.getEventDate());
+        event.setEventStatus(eventDto.getEventStatus());
+        event.setOrganizerId(event.getOrganizerId());
+        event.setMaxTicketsPerPurchase(eventDto.getMaxTicketsPerPurchase());
 
         return event;
     }
