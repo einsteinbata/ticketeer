@@ -2,6 +2,7 @@ package com.ticketeer.service.impl;
 
 import com.ticketeer.exceptions.FieldValidationError;
 import com.ticketeer.exceptions.ResourceNotFoundError;
+import com.ticketeer.exceptions.ServiceException;
 import com.ticketeer.pojo.dto.EventDto;
 import com.ticketeer.pojo.dto.OrganizerDto;
 import com.ticketeer.pojo.dto.VenueDto;
@@ -16,9 +17,12 @@ import com.ticketeer.repository.VenueRepository;
 import com.ticketeer.service.EventService;
 import com.ticketeer.util.ObjectMapper;
 import com.ticketeer.util.ValidationUtil;
+import jakarta.persistence.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -40,7 +44,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public AddEventOutput addEvent(AddEventInput addEventInput) throws ResourceNotFoundError{
+    public AddEventOutput addEvent(AddEventInput addEventInput) throws ResourceNotFoundError, ServiceException {
         AddEventOutput addEventOutput = new AddEventOutput();
 
         try {
@@ -67,15 +71,42 @@ public class EventServiceImpl implements EventService {
 
             addEventOutput.setEvent(event);
 
-        } catch (FieldValidationError err) {
-            System.err.println(err);
+        } catch (FieldValidationError | PersistenceException err) {
+            System.err.println("Error adding event: " + err);
+            throw new ServiceException(err);
         }
 
         return addEventOutput;
     }
 
     @Override
-    public GetEventsOutput getEvents(EventSearchConstraints constraints) {
-        return null;
+    public GetEventsOutput getEvents(EventSearchConstraints constraints) throws ServiceException {
+
+        GetEventsOutput getEventsOutput = new GetEventsOutput();
+
+        try {
+            //TODO add all constraints
+            //TODO combine with event status constraints
+
+
+
+            System.out.println("Listing all events");
+
+            List<EventDto> eventDtoList = eventRepository.findAll();
+            List<Event> events = new ArrayList<>();
+
+            for (EventDto eventDto : eventDtoList){
+                Event event = ObjectMapper.dtoToModel(eventDto);
+                events.add(event);
+            }
+
+            getEventsOutput.setEventList(events);
+        } catch (PersistenceException err) {
+            System.err.println("Error listing events: " + err);
+            throw new ServiceException(err);
+        }
+
+        return getEventsOutput;
     }
+
 }

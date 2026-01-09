@@ -23,6 +23,9 @@ public class VenueDto {
     private String venueCity;
 
     @Column(nullable = false)
+    private String venueAddress;
+
+    @Column
     private String venueCoordinates;
 
     @Column

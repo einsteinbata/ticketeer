@@ -17,6 +17,7 @@ public class ObjectMapper {
 
         venueDto.setVenueName(addVenueInput.getVenueName());
         venueDto.setVenueCity(addVenueInput.getVenueCity());
+        venueDto.setVenueAddress(addVenueInput.getVenueAddress());
         venueDto.setVenueCoordinates(addVenueInput.getVenueCoordinates());
         venueDto.setManagementEmail(addVenueInput.getManagementEmail());
         venueDto.setManagementPhone(addVenueInput.getManagementPhone());

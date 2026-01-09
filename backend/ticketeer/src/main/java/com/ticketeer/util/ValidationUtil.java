@@ -21,6 +21,9 @@ public class ValidationUtil {
         if(Objects.isNull(input.getVenueCity()) || input.getVenueCity().isEmpty())
             throw new FieldValidationError("Invalid venue city");
 
+        if(Objects.isNull(input.getVenueAddress()) || input.getVenueAddress().isEmpty())
+            throw new FieldValidationError("Invalid venue address");
+
         if(input.getCapacity() < 1)
             throw new FieldValidationError("Invalid venue capacity");
 

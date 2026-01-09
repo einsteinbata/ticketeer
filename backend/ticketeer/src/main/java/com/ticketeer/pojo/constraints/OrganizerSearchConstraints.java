@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class OrganizerSearchConstraints {
-    private String organizerName;
-    private String organizerEmail;
-    private String organizerPhoneNumber;
+    private Long id;
+    private String name;
 }

@@ -1,10 +1,12 @@
 package com.ticketeer.controller;
 
+import com.ticketeer.exceptions.ServiceException;
 import com.ticketeer.pojo.constraints.OrganizerSearchConstraints;
 import com.ticketeer.pojo.io.AddOrganizerInput;
 import com.ticketeer.pojo.io.AddOrganizersOutput;
 import com.ticketeer.pojo.io.GetOrganizersOutput;
 import com.ticketeer.service.OrganizerService;
+import com.ticketeer.util.ErrorResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +34,24 @@ public class OrganizerController {
 
     @GetMapping("/list")
     public ResponseEntity<GetOrganizersOutput> getOrganizers(@RequestBody OrganizerSearchConstraints constraints){
-        return ResponseEntity.ok(new GetOrganizersOutput());
+        GetOrganizersOutput getOrganizersOutput = null;
+
+        try {
+            getOrganizersOutput = organizerService.getOrganizers(constraints);
+        } catch (ServiceException err) {
+            System.err.println("Get organizers error: " + err);
+
+            getOrganizersOutput = ErrorResponseUtil.generateForGetOrganizers(err);
+            return ResponseEntity.internalServerError().body(getOrganizersOutput);
+        } catch (Exception err) {
+            System.err.println("Error: " + err);
+
+            getOrganizersOutput = ErrorResponseUtil.generateForGetOrganizers(err);
+            return ResponseEntity.internalServerError().body(getOrganizersOutput);
+        }
+
+        System.out.println("Get organizers output: " + getOrganizersOutput);
+        return ResponseEntity.ok(getOrganizersOutput);
     }
 
 }

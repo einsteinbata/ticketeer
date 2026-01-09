@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class VenueSearchConstraints {
     private Long id;
+    private String name;
     private String city;
-    private int capacity;
 }

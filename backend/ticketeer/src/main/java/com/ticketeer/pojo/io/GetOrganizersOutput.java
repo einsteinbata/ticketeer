@@ -7,5 +7,5 @@ import java.util.List;
 
 @Data
 public class GetOrganizersOutput extends ServiceOutput {
-    private List<OrganizerDto> organizers;
+    private List<OrganizerDto> organizerList;
 }
