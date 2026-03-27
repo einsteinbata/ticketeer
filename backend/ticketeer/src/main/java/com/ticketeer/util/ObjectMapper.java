@@ -53,9 +53,9 @@ public class ObjectMapper {
         event.setEventId(eventDto.getEventId());
         event.setFeatured(eventDto.isFeatured());
         event.setSeatArrangement(new Gson().fromJson(eventDto.getSeatArrangementJson(), SeatArrangement.class));
-        event.setEventDate(event.getEventDate());
+        event.setEventDate(eventDto.getEventDate());
         event.setEventStatus(eventDto.getEventStatus());
-        event.setOrganizerId(event.getOrganizerId());
+        event.setOrganizerId(eventDto.getOrganizerId());
         event.setMaxTicketsPerPurchase(eventDto.getMaxTicketsPerPurchase());
 
         return event;
