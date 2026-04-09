@@ -9,6 +9,7 @@ import com.ticketeer.pojo.dto.VenueDto;
 import com.ticketeer.pojo.constraints.EventSearchConstraints;
 import com.ticketeer.pojo.io.AddEventInput;
 import com.ticketeer.pojo.io.AddEventOutput;
+import com.ticketeer.pojo.io.DeleteEventOutput;
 import com.ticketeer.pojo.io.GetEventsOutput;
 import com.ticketeer.pojo.model.Event;
 import com.ticketeer.repository.EventRepository;
@@ -107,6 +108,25 @@ public class EventServiceImpl implements EventService {
         }
 
         return getEventsOutput;
+    }
+
+    @Override
+    public DeleteEventOutput deleteEvent(Long eventId) throws ServiceException {
+
+        DeleteEventOutput output = null;
+
+        System.out.println("Deleting event with ID " + eventId);
+
+        try{
+            eventRepository.deleteById(eventId);
+            output = new DeleteEventOutput();
+            output.setEventId(eventId);
+        } catch (Exception err) {
+            System.err.println("Error deleting event with ID " + eventId + "\n" + err);
+            throw new ServiceException(err);
+        }
+
+        return output;
     }
 
 }

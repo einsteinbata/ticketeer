@@ -1,10 +1,7 @@
 package com.ticketeer.util;
 
 import com.ticketeer.constants.ServiceStatus;
-import com.ticketeer.pojo.io.AddEventOutput;
-import com.ticketeer.pojo.io.GetEventsOutput;
-import com.ticketeer.pojo.io.GetOrganizersOutput;
-import com.ticketeer.pojo.io.GetVenuesOutput;
+import com.ticketeer.pojo.io.*;
 
 public class ErrorResponseUtil {
 
@@ -23,6 +20,33 @@ public class ErrorResponseUtil {
         getOrganizersOutput.setErrorMessage(throwable.getMessage());
 
         return getOrganizersOutput;
+    }
+
+    public static DeleteOrganizerOutput generateForDeleteOrganizer(Throwable throwable){
+        DeleteOrganizerOutput deleteOrganizerOutput = new DeleteOrganizerOutput();
+
+        deleteOrganizerOutput.setOperationStatus(ServiceStatus.ERROR.getCod());
+        deleteOrganizerOutput.setErrorMessage(throwable.getMessage());
+
+        return deleteOrganizerOutput;
+    }
+
+    public static DeleteVenueOutput generateForDeleteVenue(Throwable throwable){
+        DeleteVenueOutput deleteVenueOutput = new DeleteVenueOutput();
+
+        deleteVenueOutput.setOperationStatus(ServiceStatus.ERROR.getCod());
+        deleteVenueOutput.setErrorMessage(throwable.getMessage());
+
+        return deleteVenueOutput;
+    }
+
+    public static DeleteEventOutput generateForDeleteEvent(Throwable throwable){
+        DeleteEventOutput deleteEventOutput = new DeleteEventOutput();
+
+        deleteEventOutput.setOperationStatus(ServiceStatus.ERROR.getCod());
+        deleteEventOutput.setErrorMessage(throwable.getMessage());
+
+        return deleteEventOutput;
     }
 
     public static AddEventOutput generateForAddEvent(Throwable throwable){

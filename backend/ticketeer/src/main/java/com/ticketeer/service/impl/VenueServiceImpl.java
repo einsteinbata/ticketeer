@@ -6,6 +6,7 @@ import com.ticketeer.pojo.dto.VenueDto;
 import com.ticketeer.pojo.constraints.VenueSearchConstraints;
 import com.ticketeer.pojo.io.AddVenueInput;
 import com.ticketeer.pojo.io.AddVenueOutput;
+import com.ticketeer.pojo.io.DeleteVenueOutput;
 import com.ticketeer.pojo.io.GetVenuesOutput;
 import com.ticketeer.repository.VenueRepository;
 import com.ticketeer.service.VenueService;
@@ -109,5 +110,25 @@ public class VenueServiceImpl implements VenueService {
         }
 
         return getVenuesOutput;
+    }
+
+    @Override
+    public DeleteVenueOutput deleteVenue(Long venueId) throws ServiceException {
+        DeleteVenueOutput output = null;
+
+        System.out.println("Deleting venue with ID " + venueId);
+
+        try {
+            venueRepository.deleteById(venueId);
+            output = new DeleteVenueOutput();
+            output.setVenueId(venueId);
+        } catch (Exception err) {
+            System.err.println("Error deleting venue with ID " + venueId);
+            throw new ServiceException(err);
+        }
+
+        System.out.println("Venue with ID " + venueId + " deleted successfully");
+
+        return output;
     }
 }

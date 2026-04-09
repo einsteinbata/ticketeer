@@ -6,6 +6,7 @@ import com.ticketeer.pojo.constraints.OrganizerSearchConstraints;
 import com.ticketeer.pojo.dto.OrganizerDto;
 import com.ticketeer.pojo.io.AddOrganizerInput;
 import com.ticketeer.pojo.io.AddOrganizersOutput;
+import com.ticketeer.pojo.io.DeleteOrganizerOutput;
 import com.ticketeer.pojo.io.GetOrganizersOutput;
 import com.ticketeer.repository.OrganizerRepository;
 import com.ticketeer.service.OrganizerService;
@@ -93,6 +94,25 @@ public class OrganizerServiceImpl implements OrganizerService {
         }
 
         return getOrganizersOutput;
+    }
+
+    @Override
+    public DeleteOrganizerOutput deleteOrganizer(Long organizerId) throws ServiceException {
+        DeleteOrganizerOutput output = null;
+
+        System.out.println("Deleting organizer with ID " + organizerId);
+
+        try{
+            organizerRepository.deleteById(organizerId);
+            output = new DeleteOrganizerOutput();
+            output.setOrganizerId(organizerId);
+        } catch (Exception err){
+            System.err.println("Error deleting organizer [" + organizerId + "] " + err);
+            throw new ServiceException(err);
+        }
+
+        System.out.println("Organizer with ID " + organizerId + " deleted successfully");
+        return output;
     }
 
 }

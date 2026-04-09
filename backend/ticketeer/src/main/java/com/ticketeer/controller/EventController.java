@@ -5,6 +5,8 @@ import com.ticketeer.exceptions.ServiceException;
 import com.ticketeer.pojo.constraints.EventSearchConstraints;
 import com.ticketeer.pojo.io.AddEventInput;
 import com.ticketeer.pojo.io.AddEventOutput;
+import com.ticketeer.pojo.io.DeleteEventInput;
+import com.ticketeer.pojo.io.DeleteEventOutput;
 import com.ticketeer.pojo.io.GetEventsOutput;
 import com.ticketeer.service.EventService;
 import com.ticketeer.util.ErrorResponseUtil;
@@ -55,6 +57,22 @@ public class EventController {
         }
 
         return ResponseEntity.ok(getEventsOutput);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<DeleteEventOutput> deleteEvent(@RequestBody DeleteEventInput deleteEventInput){
+
+        DeleteEventOutput output = null;
+
+        try {
+            output = eventService.deleteEvent(deleteEventInput.getEventId());
+        } catch (ServiceException err){
+            System.err.println(err);
+            output = ErrorResponseUtil.generateForDeleteEvent(err);
+            return ResponseEntity.internalServerError().body(output);
+        }
+
+        return ResponseEntity.ok(output);
     }
 
 }

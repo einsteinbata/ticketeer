@@ -4,6 +4,8 @@ import com.ticketeer.exceptions.ServiceException;
 import com.ticketeer.pojo.constraints.VenueSearchConstraints;
 import com.ticketeer.pojo.io.AddVenueInput;
 import com.ticketeer.pojo.io.AddVenueOutput;
+import com.ticketeer.pojo.io.DeleteVenueInput;
+import com.ticketeer.pojo.io.DeleteVenueOutput;
 import com.ticketeer.pojo.io.GetVenuesOutput;
 import com.ticketeer.service.VenueService;
 import com.ticketeer.util.ErrorResponseUtil;
@@ -52,6 +54,22 @@ public class VenueController {
         System.out.println("Get venues output: " + getVenuesOutput);
 
         return ResponseEntity.ok(getVenuesOutput);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<DeleteVenueOutput> deleteVenue(DeleteVenueInput deleteVenueInput) {
+
+        DeleteVenueOutput output = null;
+
+        try {
+            output = venueService.deleteVenue(deleteVenueInput.getVenueId());
+        } catch (ServiceException err) {
+            System.err.println(err);
+            output = ErrorResponseUtil.generateForDeleteVenue(err);
+            return ResponseEntity.internalServerError().body(output);
+        }
+
+        return ResponseEntity.ok(output);
     }
 
 }
