@@ -1,0 +1,1 @@
+podman run -idt --name postgres-ticketeer -p 5432:5432 -e POSTGRES_USER=ticketeer_db -e POSTGRES_PASSWORD=ticketeer -e POSTGRES_DB=ticketeer_main postgres:15.15-trixie

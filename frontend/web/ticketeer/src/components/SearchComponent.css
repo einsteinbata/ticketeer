@@ -1,0 +1,74 @@
+@font-face {
+    font-family: 'FirsNeueBold';
+    src: url("../assets/fonts/TT Firs Neue Trial Bold.ttf");
+}
+
+@font-face {
+    font-family: 'FirsNeueDemiBold';
+    src: url("../assets/fonts/TT Firs Neue Trial DemiBold.ttf");
+}
+
+@font-face {
+    font-family: 'FirsNeueMedium';
+    src: url("../assets/fonts/TT Firs Neue Trial Medium.ttf");
+}
+
+.search-container{
+    height: 15vh;
+    /*max-width: 70vw;*/
+    width: 70vw;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.3);
+    padding-inline: 20px;
+}
+
+.search-field {
+    font-family: 'FirsNeueMedium', sans-serif;
+    font-size: 0.85rem;
+}
+
+.search-button-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 55%;
+    border-width: 1.5px;
+    border-style: solid;
+    border-color: rgba(136, 136, 136, 0.3);
+    border-radius: 15px;
+    width: 15%;
+    margin-left: 5px;
+    margin-right: 5px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.search-button-container:hover {
+    color: #FFFFFF;
+    background-color: #06392F;
+    border-color: #06392F;
+}
+
+.search-field-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 55%;
+    border-width: 1.3px;
+    border-style: solid;
+    border-color: rgba(136, 136, 136, 0.3);
+    border-radius: 15px;
+    width: 25%;
+    margin-left: 5px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.search-field-content{
+    font-family: 'FirsNeueDemiBold', sans-serif;
+    margin-left: 1vw;
+    color: #06392F;
+}

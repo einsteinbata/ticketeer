@@ -1,0 +1,34 @@
+@font-face {
+    font-family: 'NeueHaasGrotDispBlack';
+    src: url("../assets/fonts/NeueHaasGrotDisp-95Black-Trial.otf");
+}
+
+@font-face {
+    font-family: 'NeueHaasGrotDispBold';
+    src: url("../assets/fonts/NeueHaasGrotText-75Bold-Trial.otf");
+}
+
+@font-face {
+    font-family: 'FirsNeueBold';
+    src: url("../assets/fonts/TT Firs Neue Trial Bold.ttf");
+}
+
+.hero-text{
+    font-family: 'FirsNeueBold', sans-serif;
+    font-size: 3rem;
+    text-align: center;
+}
+
+.highlighted-hero-text{
+    color: #06392F;
+}
+
+.home-section{
+    margin-bottom: 20vh;
+}
+
+.search-component-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
