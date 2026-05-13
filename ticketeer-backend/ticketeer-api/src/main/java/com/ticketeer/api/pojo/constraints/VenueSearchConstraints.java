@@ -1,0 +1,10 @@
+package com.ticketeer.api.pojo.constraints;
+
+import lombok.Data;
+
+@Data
+public class VenueSearchConstraints {
+    private Long id;
+    private String name;
+    private String city;
+}
