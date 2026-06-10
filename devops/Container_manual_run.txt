@@ -1,0 +1,7 @@
+docker network create ticketeer_network
+
+docker run -d --name postgres -e POSTGRES_USER=ticketeer_db -e POSTGRES_PASSWORD=ticketeer -e POSTGRES_DB=ticketeer_main -p 5432:5432 --network ticketeer_network postgres:latest
+
+docker build -t ticketeer-api:1.0 .
+
+docker run -d --name ticketeer-api --name ticketeer-api -p 8090:8090 --network ticketeer_network ticketeer-api:1.0
