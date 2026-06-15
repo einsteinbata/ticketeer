@@ -1,6 +1,6 @@
 package com.ticketeer.api.repository;
 
-import com.ticketeer.api.pojo.dto.EventDto;
+import com.ticketeer.pojo.dto.EventDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

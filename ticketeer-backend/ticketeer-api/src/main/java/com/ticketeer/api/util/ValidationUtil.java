@@ -1,9 +1,10 @@
 package com.ticketeer.api.util;
 
-import com.ticketeer.api.exceptions.FieldValidationError;
-import com.ticketeer.api.pojo.io.AddEventInput;
-import com.ticketeer.api.pojo.io.AddOrganizerInput;
-import com.ticketeer.api.pojo.io.AddVenueInput;
+import com.ticketeer.exceptions.FieldValidationError;
+import com.ticketeer.pojo.io.AddEventInput;
+import com.ticketeer.pojo.io.AddOrganizerInput;
+import com.ticketeer.pojo.io.AddVenueInput;
+
 
 import java.util.Objects;
 

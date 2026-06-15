@@ -1,14 +1,15 @@
 package com.ticketeer.api.util;
 
 import com.google.gson.Gson;
-import com.ticketeer.api.pojo.dto.EventDto;
-import com.ticketeer.api.pojo.dto.OrganizerDto;
-import com.ticketeer.api.pojo.dto.VenueDto;
-import com.ticketeer.api.pojo.io.AddEventInput;
-import com.ticketeer.api.pojo.io.AddOrganizerInput;
-import com.ticketeer.api.pojo.io.AddVenueInput;
-import com.ticketeer.api.pojo.model.Event;
-import com.ticketeer.api.pojo.model.SeatArrangement;
+import com.ticketeer.pojo.dto.EventDto;
+import com.ticketeer.pojo.dto.OrganizerDto;
+import com.ticketeer.pojo.dto.VenueDto;
+import com.ticketeer.pojo.io.AddEventInput;
+import com.ticketeer.pojo.io.AddOrganizerInput;
+import com.ticketeer.pojo.io.AddVenueInput;
+import com.ticketeer.pojo.model.Event;
+import com.ticketeer.pojo.model.SeatArrangement;
+
 
 public class ObjectMapper {
 

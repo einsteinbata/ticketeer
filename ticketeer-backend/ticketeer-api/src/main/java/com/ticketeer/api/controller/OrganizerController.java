@@ -1,11 +1,10 @@
 package com.ticketeer.api.controller;
 
-import com.ticketeer.api.exceptions.ServiceException;
-import com.ticketeer.api.pojo.constraints.OrganizerSearchConstraints;
-import com.ticketeer.api.pojo.io.*;
+import com.ticketeer.api.constraints.OrganizerSearchConstraints;
 import com.ticketeer.api.util.ErrorResponseUtil;
-import com.ticketeer.api.pojo.io.*;
 import com.ticketeer.api.service.OrganizerService;
+import com.ticketeer.exceptions.ServiceException;
+import com.ticketeer.pojo.io.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

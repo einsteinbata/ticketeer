@@ -1,17 +1,18 @@
 package com.ticketeer.api.service.impl;
 
-import com.ticketeer.api.exceptions.FieldValidationError;
-import com.ticketeer.api.exceptions.ServiceException;
-import com.ticketeer.api.pojo.constraints.VenueSearchConstraints;
-import com.ticketeer.api.pojo.dto.VenueDto;
-import com.ticketeer.api.pojo.io.AddVenueInput;
-import com.ticketeer.api.pojo.io.AddVenueOutput;
-import com.ticketeer.api.pojo.io.DeleteVenueOutput;
-import com.ticketeer.api.pojo.io.GetVenuesOutput;
+import com.ticketeer.api.constraints.VenueSearchConstraints;
+
 import com.ticketeer.api.repository.VenueRepository;
 import com.ticketeer.api.service.VenueService;
 import com.ticketeer.api.util.ObjectMapper;
 import com.ticketeer.api.util.ValidationUtil;
+import com.ticketeer.exceptions.FieldValidationError;
+import com.ticketeer.exceptions.ServiceException;
+import com.ticketeer.pojo.dto.VenueDto;
+import com.ticketeer.pojo.io.AddVenueInput;
+import com.ticketeer.pojo.io.AddVenueOutput;
+import com.ticketeer.pojo.io.DeleteVenueOutput;
+import com.ticketeer.pojo.io.GetVenuesOutput;
 import jakarta.persistence.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,6 +60,7 @@ public class VenueServiceImpl implements VenueService {
     @Override
     public GetVenuesOutput getVenues(VenueSearchConstraints getVenuesSearchConstraints) throws ServiceException {
         GetVenuesOutput getVenuesOutput = new GetVenuesOutput();
+
 
         System.out.println("Listing venues by constraints: " + getVenuesSearchConstraints);
 

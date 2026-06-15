@@ -1,8 +1,9 @@
 package com.ticketeer.ticketeer_purchases_worker.consumer;
 
 import com.google.gson.Gson;
+import com.ticketeer.pojo.io.PurchaseDto;
+import com.ticketeer.pojo.io.PurchaseMessageInput;
 import com.ticketeer.ticketeer_purchases_worker.config.RabbitMqConfig;
-import com.ticketeer.ticketeer_purchases_worker.io.PurchaseMessageInput;
 import com.ticketeer.ticketeer_purchases_worker.service.PurchaseConsumerService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,15 @@ public class PurchaseConsumer {
         PurchaseMessageInput purchaseMessageInput =
                 new Gson().fromJson(message, PurchaseMessageInput.class);
 
-        purchaseConsumerService.processMessage(purchaseMessageInput);
+        PurchaseDto purchaseDto = null;
+
+        try {
+            purchaseDto = purchaseConsumerService.processMessage(purchaseMessageInput);
+            System.out.println("Successfully processed message: " + purchaseMessageInput);
+        } catch (Exception err) {
+            System.err.println("Error processing message from queue. [" + purchaseMessageInput + "] " + err);
+            //TODO put in dead-letter queue
+        }
     }
 
 }

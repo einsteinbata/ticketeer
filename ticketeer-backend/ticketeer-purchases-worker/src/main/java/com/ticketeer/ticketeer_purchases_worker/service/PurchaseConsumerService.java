@@ -1,7 +1,10 @@
 package com.ticketeer.ticketeer_purchases_worker.service;
 
-import com.ticketeer.ticketeer_purchases_worker.io.PurchaseMessageInput;
+
+import com.ticketeer.exceptions.ServiceException;
+import com.ticketeer.pojo.io.PurchaseDto;
+import com.ticketeer.pojo.io.PurchaseMessageInput;
 
 public interface PurchaseConsumerService {
-    void processMessage(PurchaseMessageInput message);
+    PurchaseDto processMessage(PurchaseMessageInput message) throws ServiceException;
 }
