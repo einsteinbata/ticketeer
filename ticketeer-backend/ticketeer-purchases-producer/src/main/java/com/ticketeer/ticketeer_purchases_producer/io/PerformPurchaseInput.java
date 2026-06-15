@@ -10,4 +10,5 @@ public class PerformPurchaseInput {
     private String paymentId;
     private Long eventId;
     private String paymentMethod;
+    private String paymentRequestDate;
 }

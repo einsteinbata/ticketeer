@@ -10,4 +10,5 @@ public class PurchaseMessageInput {
     String paymentId;
     String paymentMethod;
     String purchaseUuid;
+    String paymentRequestDate;
 }
