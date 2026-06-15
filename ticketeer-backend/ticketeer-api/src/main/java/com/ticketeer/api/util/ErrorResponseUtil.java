@@ -1,7 +1,8 @@
 package com.ticketeer.api.util;
 
-import com.ticketeer.api.constants.ServiceStatus;
-import com.ticketeer.api.pojo.io.*;
+
+import com.ticketeer.constants.ServiceStatus;
+import com.ticketeer.pojo.io.*;
 
 public class ErrorResponseUtil {
 

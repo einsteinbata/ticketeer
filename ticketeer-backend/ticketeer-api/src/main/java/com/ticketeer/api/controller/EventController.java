@@ -1,15 +1,11 @@
 package com.ticketeer.api.controller;
 
-import com.ticketeer.api.exceptions.ResourceNotFoundError;
-import com.ticketeer.api.exceptions.ServiceException;
-import com.ticketeer.api.pojo.constraints.EventSearchConstraints;
+import com.ticketeer.api.constraints.EventSearchConstraints;
 import com.ticketeer.api.util.ErrorResponseUtil;
-import com.ticketeer.api.pojo.io.AddEventInput;
-import com.ticketeer.api.pojo.io.AddEventOutput;
-import com.ticketeer.api.pojo.io.DeleteEventInput;
-import com.ticketeer.api.pojo.io.DeleteEventOutput;
-import com.ticketeer.api.pojo.io.GetEventsOutput;
 import com.ticketeer.api.service.EventService;
+import com.ticketeer.exceptions.ResourceNotFoundError;
+import com.ticketeer.exceptions.ServiceException;
+import com.ticketeer.pojo.io.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

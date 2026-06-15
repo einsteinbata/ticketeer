@@ -1,6 +1,7 @@
 package com.ticketeer.ticketeer_purchases_producer.service;
 
-import com.ticketeer.ticketeer_purchases_producer.io.PerformPurchaseInput;
+
+import com.ticketeer.pojo.io.PerformPurchaseInput;
 
 public interface PurchaseProducerService {
 

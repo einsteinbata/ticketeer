@@ -1,12 +1,12 @@
 package com.ticketeer.api.service;
 
-import com.ticketeer.api.exceptions.ResourceNotFoundError;
-import com.ticketeer.api.exceptions.ServiceException;
-import com.ticketeer.api.pojo.constraints.EventSearchConstraints;
-import com.ticketeer.api.pojo.io.AddEventInput;
-import com.ticketeer.api.pojo.io.AddEventOutput;
-import com.ticketeer.api.pojo.io.DeleteEventOutput;
-import com.ticketeer.api.pojo.io.GetEventsOutput;
+import com.ticketeer.api.constraints.EventSearchConstraints;
+import com.ticketeer.exceptions.ResourceNotFoundError;
+import com.ticketeer.exceptions.ServiceException;
+import com.ticketeer.pojo.io.AddEventInput;
+import com.ticketeer.pojo.io.AddEventOutput;
+import com.ticketeer.pojo.io.DeleteEventOutput;
+import com.ticketeer.pojo.io.GetEventsOutput;
 
 public interface EventService {
     AddEventOutput addEvent(AddEventInput addEventInput) throws ResourceNotFoundError, ServiceException;
