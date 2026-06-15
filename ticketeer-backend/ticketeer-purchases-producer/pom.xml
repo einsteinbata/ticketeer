@@ -65,7 +65,8 @@
 			</activation>
 			<properties>
 				<env.name>development</env.name>
-				<spring.rabbitmq.host>192.168.1.10</spring.rabbitmq.host>
+<!--				<spring.rabbitmq.host>192.168.1.10</spring.rabbitmq.host>-->
+				<spring.rabbitmq.host>localhost</spring.rabbitmq.host>
 				<spring.rabbitmq.port>5672</spring.rabbitmq.port>
 				<rabbitmq.username>rabbitmq_user</rabbitmq.username>
 				<rabbitmq.password>1234</rabbitmq.password>
