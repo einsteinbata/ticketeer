@@ -24,7 +24,7 @@ public class PurchaseProducerServiceImpl implements PurchaseProducerService {
     }
 
     @Override
-    public void send(PerformPurchaseInput purchaseInput) throws Exception {
+    public void sendToRegularQueue(PerformPurchaseInput purchaseInput) throws Exception {
 
         exchange = env.getProperty("rabbitmq.exchange");
         routingKey = env.getProperty("rabbitmq.routing.key");

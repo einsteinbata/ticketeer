@@ -24,7 +24,7 @@ public class PurchaseDto {
     String itemDescription;
 
     @Column
-    int numberOfItems;
+    int itemTotal;
     @Column(nullable = false, unique = true)
     String paymentId;
 

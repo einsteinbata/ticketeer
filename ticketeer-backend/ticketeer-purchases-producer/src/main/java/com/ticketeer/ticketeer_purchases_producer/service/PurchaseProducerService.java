@@ -5,6 +5,6 @@ import com.ticketeer.pojo.io.PerformPurchaseInput;
 
 public interface PurchaseProducerService {
 
-    void send(PerformPurchaseInput purchaseInput) throws Exception;
+    void sendToRegularQueue(PerformPurchaseInput purchaseInput) throws Exception;
 
 }
