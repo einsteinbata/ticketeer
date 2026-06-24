@@ -49,6 +49,7 @@ public class PurchaseController {
         } catch (Exception err) {
             System.err.println("Could not send purchase message to queue");
 
+            performTransactionReversal(purchaseInput);
 
             return ResponseEntity.internalServerError().body(purchaseInput);
         }

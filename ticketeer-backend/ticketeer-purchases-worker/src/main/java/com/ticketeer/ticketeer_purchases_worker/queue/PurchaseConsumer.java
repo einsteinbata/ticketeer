@@ -1,4 +1,4 @@
-package com.ticketeer.ticketeer_purchases_worker.consumer;
+package com.ticketeer.ticketeer_purchases_worker.queue;
 
 import com.google.gson.Gson;
 import com.ticketeer.pojo.io.PurchaseDto;
@@ -27,10 +27,9 @@ public class PurchaseConsumer {
 
         try {
             purchaseDto = purchaseConsumerService.processMessage(purchaseMessageInput);
-            System.out.println("Successfully processed message: " + purchaseMessageInput);
+            System.out.println("Successfully processed message: " + purchaseDto);
         } catch (Exception err) {
-            System.err.println("Error processing message from queue. [" + purchaseMessageInput + "] " + err);
-            //TODO put in dead-letter queue
+            System.err.println("Error processing message: [" + purchaseMessageInput + "] " + err);
         }
     }
 

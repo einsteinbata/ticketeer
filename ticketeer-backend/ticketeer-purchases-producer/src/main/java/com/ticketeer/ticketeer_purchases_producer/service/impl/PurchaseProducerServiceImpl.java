@@ -23,6 +23,7 @@ public class PurchaseProducerServiceImpl implements PurchaseProducerService {
 
     }
 
+    //TODO queue write logic should be in a shared package
     @Override
     public void sendToRegularQueue(PerformPurchaseInput purchaseInput) throws Exception {
 
@@ -40,7 +41,7 @@ public class PurchaseProducerServiceImpl implements PurchaseProducerService {
             );
 
         } catch (AmqpException err) {
-            System.out.println("Error sending message to queue. " + err.getMessage());
+            System.err.println("Error sending message to queue. " + err.getMessage());
             throw new Exception(err);
         }
 
