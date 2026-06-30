@@ -1,8 +1,7 @@
 package com.ticketeer.ticketeer_purchases_worker.queue;
 
-import com.google.gson.Gson;
+import com.ticketeer.pojo.io.PerformPurchaseInput;
 import com.ticketeer.pojo.io.PurchaseDto;
-import com.ticketeer.pojo.io.PurchaseMessageInput;
 import com.ticketeer.ticketeer_purchases_worker.config.RabbitMqConfig;
 import com.ticketeer.ticketeer_purchases_worker.service.PurchaseConsumerService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -16,20 +15,18 @@ public class PurchaseConsumer {
     private PurchaseConsumerService purchaseConsumerService;
 
     @RabbitListener(queues = RabbitMqConfig.QUEUE)
-    public void consume(String message){
+    public void consume(PerformPurchaseInput performPurchaseInput){
+        //TODO consider implementing manual acknowledgement
         System.out.println("Message read from queue:");
-        System.out.println(message);
-
-        PurchaseMessageInput purchaseMessageInput =
-                new Gson().fromJson(message, PurchaseMessageInput.class);
+        System.out.println(performPurchaseInput);
 
         PurchaseDto purchaseDto = null;
 
         try {
-            purchaseDto = purchaseConsumerService.processMessage(purchaseMessageInput);
+            purchaseDto = purchaseConsumerService.processMessage(performPurchaseInput);
             System.out.println("Successfully processed message: " + purchaseDto);
         } catch (Exception err) {
-            System.err.println("Error processing message: [" + purchaseMessageInput + "] " + err);
+            System.err.println("Error processing message: [" + performPurchaseInput + "] " + err);
         }
     }
 

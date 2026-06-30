@@ -1,11 +1,12 @@
 package com.ticketeer.ticketeer_purchases_worker.service;
 
 import com.ticketeer.exceptions.ServiceException;
+import com.ticketeer.pojo.io.PerformPurchaseInput;
 import com.ticketeer.pojo.io.PurchaseDto;
 import com.ticketeer.pojo.io.PurchaseMessageInput;
-import com.ticketeer.queue.transaction.QueueWriter;
 import com.ticketeer.ticketeer_purchases_worker.repository.PurchaseRepository;
 import com.ticketeer.ticketeer_purchases_worker.util.ObjectMapper;
+import com.ticketeer.util.DateUtil;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -21,17 +22,17 @@ public class PurchaseConsumerServiceImpl implements PurchaseConsumerService {
     private final RabbitTemplate rabbitTemplate;
     private String dlqExchange;
     private String dlqRoutingKey;
-    private final String RETRY_LIMIT = env.getProperty("queue.message.retry.limit");
+    private String retryLimit;
 
     public PurchaseConsumerServiceImpl(RabbitTemplate rabbitTemplate){
         this.rabbitTemplate = rabbitTemplate;
     }
 
     @Override
-    public PurchaseDto processMessage(PurchaseMessageInput message) throws ServiceException {
-        System.out.println("Processing messsage: " + message);
+    public PurchaseDto processMessage(PerformPurchaseInput performPurchaseInput) throws ServiceException {
+        System.out.println("Processing messsage: " + performPurchaseInput);
 
-        PurchaseDto purchaseDto = ObjectMapper.purchaseMessageInputToPurchaseDto(message);
+        PurchaseDto purchaseDto = ObjectMapper.performPurchaseInputToPurchaseDto(performPurchaseInput);
         PurchaseDto registeredPurchase = null;
 
         try{
@@ -50,15 +51,21 @@ public class PurchaseConsumerServiceImpl implements PurchaseConsumerService {
 
         PurchaseDto registeredPurchase = null;
 
-        for(int retryCount=0; retryCount<Integer.parseInt(RETRY_LIMIT); retryCount++){
+        retryLimit = env.getProperty("queue.message.retry.limit");
+
+        for(int retryCount = 0; retryCount<Integer.parseInt(retryLimit); retryCount++){
 
             try {
                 //Message processing logic
-                registeredPurchase = purchaseRepository.save(purchaseDto);
+                registeredPurchase = purchaseDto;
+                registeredPurchase.setPurchaseProcessingDate(DateUtil.getFormattedDate());
+
+                registeredPurchase = purchaseRepository.save(registeredPurchase);
                 return registeredPurchase;
             } catch (Exception err) {
                 System.err.println("Could not save purchase information at attempt [" + retryCount + "]. "
                         + "[" + purchaseDto + "] ");
+                System.err.println(err);
             }
 
         }
@@ -71,14 +78,20 @@ public class PurchaseConsumerServiceImpl implements PurchaseConsumerService {
         dlqExchange = env.getProperty("rabbitmq.dlq.exchange");
         dlqRoutingKey = env.getProperty("rabbitmq.dlq.routing.key");
 
-        QueueWriter queueWriter = new QueueWriter(rabbitTemplate, dlqExchange, dlqRoutingKey);
-
         try{
-            System.out.println("Writing to queue [exchange=" + dlqExchange + ", routing_key=" + dlqRoutingKey + "]");
-            queueWriter.write(purchaseDto);
-            System.out.println("Message successfully written to the queue");
+            System.out.println("Writing to queue [exchange=" + dlqExchange
+                    + ", routing_key=" + dlqRoutingKey + "] Content: " + purchaseDto.toString());
+
+            rabbitTemplate.convertAndSend(
+                    dlqExchange,
+                    dlqRoutingKey,
+                    purchaseDto
+            );
+
+            System.out.println("Message successfully written to the DLQ. Key: " + purchaseDto.getPurchaseUuid());
+
         } catch (Exception err) {
-            System.err.println("Error writing to dead letter queue. " + err);
+            System.err.println("Error writing to DLQ. " + err);
             throw new ServiceException("Could not write to dead letter queue. " + err);
         }
 
