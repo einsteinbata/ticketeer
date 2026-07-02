@@ -53,7 +53,7 @@ public class PurchaseConsumerServiceImpl implements PurchaseConsumerService {
 
         retryLimit = env.getProperty("queue.message.retry.limit");
 
-        for(int retryCount = 0; retryCount<Integer.parseInt(retryLimit); retryCount++){
+        for(int attemptCount = 1; attemptCount<=Integer.parseInt(retryLimit); attemptCount++){
 
             try {
                 //Message processing logic
@@ -63,7 +63,7 @@ public class PurchaseConsumerServiceImpl implements PurchaseConsumerService {
                 registeredPurchase = purchaseRepository.save(registeredPurchase);
                 return registeredPurchase;
             } catch (Exception err) {
-                System.err.println("Could not save purchase information at attempt [" + retryCount + "]. "
+                System.err.println("Could not save purchase information at attempt [" + attemptCount + "]. "
                         + "[" + purchaseDto + "] ");
                 System.err.println(err);
             }

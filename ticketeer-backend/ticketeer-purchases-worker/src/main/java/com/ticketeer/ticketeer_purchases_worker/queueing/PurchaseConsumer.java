@@ -1,4 +1,4 @@
-package com.ticketeer.ticketeer_purchases_worker.queue;
+package com.ticketeer.ticketeer_purchases_worker.queueing;
 
 import com.ticketeer.pojo.io.PerformPurchaseInput;
 import com.ticketeer.pojo.io.PurchaseDto;
@@ -17,6 +17,7 @@ public class PurchaseConsumer {
     @RabbitListener(queues = RabbitMqConfig.QUEUE)
     public void consume(PerformPurchaseInput performPurchaseInput){
         //TODO consider implementing manual acknowledgement
+
         System.out.println("Message read from queue:");
         System.out.println(performPurchaseInput);
 

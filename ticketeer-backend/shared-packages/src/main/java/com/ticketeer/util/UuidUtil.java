@@ -9,13 +9,13 @@ import java.util.UUID;
 
 public class UuidUtil {
 
-    public static String generateUUID(Operation operation){
+    public static String generateUUID(String prefix){
         UUID uuid = UUID.randomUUID();
 
         DateFormat df = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         String dateTimeStr = df.format(new Date());
 
-        return operation.getPrefix() + uuid + "_" + dateTimeStr;
+        return prefix+ uuid + "_" + dateTimeStr;
     }
 
 }
