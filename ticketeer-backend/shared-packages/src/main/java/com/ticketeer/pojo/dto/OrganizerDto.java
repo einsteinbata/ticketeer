@@ -8,7 +8,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Entity(name = "organizer")
+@Entity
+@Table(name = "organizer")
 public class OrganizerDto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

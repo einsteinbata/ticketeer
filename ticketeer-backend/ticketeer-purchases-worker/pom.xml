@@ -9,6 +9,7 @@
 	</parent>
 
 	<artifactId>ticketeer-purchases-worker</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
 
 	<name/>
 	<description/>
@@ -45,11 +46,6 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.13.2</version>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
@@ -62,6 +58,10 @@
 			<groupId>com.ticketeer</groupId>
 			<artifactId>shared-packages</artifactId>
 			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jackson</artifactId>
 		</dependency>
 	</dependencies>
 
@@ -117,5 +117,48 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<env.name>development</env.name>
+				<mq.host>localhost</mq.host>
+				<mq.port>5672</mq.port>
+				<mq.username>rabbitmq_user</mq.username>
+				<mq.password>1234</mq.password>
+				<db.url>jdbc:postgresql://localhost:5432/ticketeer_main</db.url>
+				<db.username>ticketeer_db</db.username>
+				<db.password>ticketeer</db.password>
+				<db.schema.management>update</db.schema.management>
+				<mq.retry.limit>2</mq.retry.limit>
+				<mq.dlq.exchange>purchases.dlq.exchange</mq.dlq.exchange>
+				<mq.dlq.routing.key>ticketeer.purchases.dlq</mq.dlq.routing.key>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>prod</id>
+			<properties>
+				<env.name>production</env.name>
+				<mq.host>localhost</mq.host>
+				<mq.port>5672</mq.port>
+				<mq.username>rabbitmq_user</mq.username>
+				<mq.password>1234</mq.password>
+				<db.url>jdbc:postgresql://localhost:5432/ticketeer_main</db.url>
+				<db.username>ticketeer_db</db.username>
+				<db.password>ticketeer</db.password>
+				<db.schema.management>validate</db.schema.management>
+				<mq.retry.limit>3</mq.retry.limit>
+				<mq.dlq.exchange>purchases.dlq.exchange</mq.dlq.exchange>
+				<mq.dlq.routing.key>ticketeer.purchases.dlq</mq.dlq.routing.key>
+			</properties>
+		</profile>
+
+	</profiles>
 
 </project>

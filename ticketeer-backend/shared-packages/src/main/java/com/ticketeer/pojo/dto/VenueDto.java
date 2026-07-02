@@ -9,7 +9,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Entity(name = "venue")
+@Entity
+@Table(name = "venue")
 public class VenueDto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

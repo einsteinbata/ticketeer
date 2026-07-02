@@ -77,28 +77,43 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-<!--				<configuration>-->
-<!--					<annotationProcessorPaths>-->
-<!--						<path>-->
-<!--							<groupId>org.projectlombok</groupId>-->
-<!--							<artifactId>lombok</artifactId>-->
-<!--						</path>-->
-<!--					</annotationProcessorPaths>-->
-<!--				</configuration>-->
 			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-<!--				<configuration>-->
-<!--					<excludes>-->
-<!--						<exclude>-->
-<!--							<groupId>org.projectlombok</groupId>-->
-<!--							<artifactId>lombok</artifactId>-->
-<!--						</exclude>-->
-<!--					</excludes>-->
-<!--				</configuration>-->
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<env.name>development</env.name>
+				<server.port>8090</server.port>
+				<db.url>jdbc:postgresql://localhost:5432/ticketeer_main</db.url>
+				<db.username>ticketeer_db</db.username>
+				<db.password>ticketeer</db.password>
+				<db.schema.management>update</db.schema.management>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>prod</id>
+			<properties>
+				<env.name>production</env.name>
+				<server.port>8090</server.port>
+				<db.url>jdbc:postgresql://localhost:5432/ticketeer_main</db.url>
+				<db.username>ticketeer_db</db.username>
+				<db.password>ticketeer</db.password>
+				<db.schema.management>validate</db.schema.management>
+			</properties>
+		</profile>
+
+	</profiles>
 
 </project>

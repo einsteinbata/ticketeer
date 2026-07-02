@@ -3,5 +3,5 @@ package com.ticketeer.pojo.io;
 import lombok.Data;
 
 @Data
-public class ThirdPartyPaymentStatusOutput {
+public class PaymentReversalOutput {
 }

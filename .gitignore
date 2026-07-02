@@ -310,3 +310,14 @@ buildNumber.properties
 # https://plugins.jetbrains.com/plugin/8053-azure-toolkit-for-intellij
 
 # End of https://www.toptal.com/developers/gitignore/api/java,maven,intellij,webstorm,jetbrains
+
+
+# IntelliJ IDEA
+.idea/
+
+# Optional: IntelliJ module files
+*.iml
+
+# Optional: IntelliJ workspace-specific files
+*.ipr
+*.iws
