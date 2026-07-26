@@ -1,6 +1,7 @@
 package com.ticketeer.api.util;
 
 import com.google.gson.Gson;
+import com.ticketeer.constants.EventStatus;
 import com.ticketeer.pojo.dto.EventDto;
 import com.ticketeer.pojo.dto.OrganizerDto;
 import com.ticketeer.pojo.dto.VenueDto;
@@ -52,12 +53,13 @@ public class ObjectMapper {
         Event event = new Event();
 
         event.setEventId(eventDto.getEventId());
-        event.setFeatured(eventDto.isFeatured());
+        event.setFeatured(eventDto.getIsFeatured());
         event.setSeatArrangement(new Gson().fromJson(eventDto.getSeatArrangementJson(), SeatArrangement.class));
         event.setEventDate(eventDto.getEventDate());
-        event.setEventStatus(eventDto.getEventStatus());
+        event.setEventStatus(EventStatus.valueOf(eventDto.getEventStatus()));
         event.setOrganizerId(eventDto.getOrganizerId());
         event.setMaxTicketsPerPurchase(eventDto.getMaxTicketsPerPurchase());
+        event.setVenueId(eventDto.getVenueId());
 
         return event;
     }

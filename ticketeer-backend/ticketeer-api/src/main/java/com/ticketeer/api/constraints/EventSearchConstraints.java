@@ -7,7 +7,7 @@ import lombok.Data;
 public class EventSearchConstraints {
     private boolean isFeatured;
     private String city;
-    private Long venueId;;
+    private Long venueId;
     private String dateRangeBeginning;
     private String dateRangeEnding;
     private Long organizerId;

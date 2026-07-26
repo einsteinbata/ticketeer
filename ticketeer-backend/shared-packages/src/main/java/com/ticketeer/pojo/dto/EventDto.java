@@ -16,14 +16,14 @@ public class EventDto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long eventId;
     @Column
-    private boolean isFeatured;
+    private Boolean isFeatured;
     @Column(name = "seat_arrangement")
     private String seatArrangementJson;
     @Column(nullable = false)
     private String eventDate;
 
     @Column(nullable = false)
-    private EventStatus eventStatus;
+    private String eventStatus;
 
     @Column(nullable = false)
     private Long venueId;
@@ -35,7 +35,7 @@ public class EventDto {
 
     public EventDto(){
         this.isFeatured = false;
-        this.eventStatus = EventStatus.PRE_SALE;
+        this.eventStatus = EventStatus.PRE_SALE.name();
     }
 
 }

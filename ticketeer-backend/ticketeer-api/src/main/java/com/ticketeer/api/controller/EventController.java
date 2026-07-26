@@ -44,7 +44,9 @@ public class EventController {
         GetEventsOutput getEventsOutput = null;
 
         try{
+            System.out.println("Init getEvents: " + constraints.toString());
             getEventsOutput = eventService.getEvents(constraints);
+            System.out.println("Ending getEvents: " + getEventsOutput);
         } catch (ServiceException err) {
             System.err.println("Get venues error: " + err);
 
