@@ -41,10 +41,14 @@ public class EventController {
     @GetMapping(path = "/list")
     public ResponseEntity<GetEventsOutput> getEvents(@RequestBody EventSearchConstraints constraints){
 
+        //TODO Add Swagger documentation
+
         GetEventsOutput getEventsOutput = null;
 
         try{
+            System.out.println("Init getEvents: " + constraints.toString());
             getEventsOutput = eventService.getEvents(constraints);
+            System.out.println("Ending getEvents: " + getEventsOutput);
         } catch (ServiceException err) {
             System.err.println("Get venues error: " + err);
 

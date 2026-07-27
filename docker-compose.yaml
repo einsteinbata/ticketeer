@@ -1,0 +1,113 @@
+
+services:
+    api:
+        build:
+            context: ./ticketeer-backend/ticketeer-api
+            dockerfile: Dockerfile
+        container_name: ticketeer-api
+        ports:
+            - "8090:8090"
+        restart: unless-stopped
+        networks:
+            - ticketeer-network
+        depends_on:
+            postgres:
+                condition: service_healthy
+            redis:
+                condition: service_healthy
+            
+    purchases-producer:
+        build:
+            context: ./ticketeer-backend/ticketeer-purchases-producer
+            dockerfile: Dockerfile
+        container_name: ticketeer-purchases-producer
+        ports:
+            - "8091:8091"
+        restart: unless-stopped
+        networks:
+            - ticketeer-network
+        depends_on:
+            postgres:
+                condition: service_healthy
+            rabbitmq:
+                condition: service_healthy
+    
+    purchases-worker:
+        build:
+            context: ./ticketeer-backend/ticketeer-purchases-worker
+            dockerfile: Dockerfile
+        container_name: ticketeer-purchases-worker
+        restart: unless-stopped
+        networks:
+            - ticketeer-network
+        depends_on:
+            postgres:
+                condition: service_healthy
+            rabbitmq:
+                condition: service_healthy
+    
+    redis:
+        image: redis:trixie
+        container_name: redis
+        restart: unless-stopped
+        ports:
+            - "6379:6379"
+        networks:
+            - ticketeer-network
+            
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+            
+    postgres:
+        image: postgres:15.15-trixie
+        container_name: postgres
+        restart: unless-stopped
+        environment:
+            POSTGRES_USER: ticketeer_db
+            POSTGRES_PASSWORD: ticketeer
+            POSTGRES_DB: ticketeer_main
+        ports:
+            - "5432:5432"
+        networks:
+            - ticketeer-network
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+            
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U ticketeer_db -d ticketeer_main"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+    
+    rabbitmq:
+        image: rabbitmq:management-alpine
+        container_name: rabbitmq
+        hostname: rabbitmq
+        restart: unless-stopped
+        ports:
+            - "15672:15672"
+            - "5672:5672"
+        environment:
+            RABBITMQ_DEFAULT_USER: rabbitmq_user
+            RABBITMQ_DEFAULT_PASS: 1234
+        networks:
+            - ticketeer-network
+        volumes:
+            - rabbitmq_data:/var/lib/rabbitmq
+
+        healthcheck:
+            test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+
+volumes:
+    postgres_data:
+    rabbitmq_data:
+    
+networks:
+    ticketeer-network:
+        driver: bridge

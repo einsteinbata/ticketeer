@@ -11,5 +11,6 @@ public class Event {
     private String eventDate;
     private EventStatus eventStatus;
     private Long organizerId;
+    private Long venueId;
     private int maxTicketsPerPurchase;
 }
