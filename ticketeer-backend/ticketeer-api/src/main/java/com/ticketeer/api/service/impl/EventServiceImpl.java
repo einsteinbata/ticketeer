@@ -20,10 +20,13 @@ import com.ticketeer.pojo.dto.OrganizerDto;
 import com.ticketeer.pojo.dto.VenueDto;
 import com.ticketeer.pojo.io.*;
 import com.ticketeer.pojo.model.Event;
+import com.ticketeer.util.DateUtil;
 import jakarta.persistence.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -91,7 +94,6 @@ public class EventServiceImpl implements EventService {
         try {
             //TODO add all constraints
             //TODO combine with event status constraints
-            //TODO filter cached results by date
 
             List<CachingKey> queryCachingKeys = CachingUtil.getEventSearchCachingKeys(constraints);
 
@@ -138,6 +140,13 @@ public class EventServiceImpl implements EventService {
 
             if(pendingQueryCachingKeys.isEmpty()){
                 System.out.println("All keys were loaded from the cache. Skipping DB check.");
+
+                getEventsOutput.setEventList(
+                        filterEventOutputByConstraints(
+                                getEventsOutput.getEventList(),
+                                constraints)
+                );
+
                 return getEventsOutput;
             }
 
@@ -147,7 +156,11 @@ public class EventServiceImpl implements EventService {
             List<EventDto> eventsByVenueId = null;
 
             if(Objects.nonNull(constraints.getVenueId())){
-                eventsByVenueId = eventRepository.findByFilters(constraints.getVenueId(), null, EventStatus.PRE_SALE.name());
+                eventsByVenueId = eventRepository.findByFilters(
+                        constraints.getVenueId(),
+                        null,
+                        EventStatus.PRE_SALE.name()
+                );
 
                 System.out.println("Number of events by VenueId: " + eventsByVenueId.size());
 
@@ -169,7 +182,11 @@ public class EventServiceImpl implements EventService {
             List<EventDto> eventsByOrganizerId = null;
 
             if(Objects.nonNull(constraints.getOrganizerId())){
-                eventsByOrganizerId = eventRepository.findByFilters(null, constraints.getOrganizerId(), EventStatus.PRE_SALE.name());
+                eventsByOrganizerId = eventRepository.findByFilters(
+                        null,
+                        constraints.getOrganizerId(),
+                        EventStatus.PRE_SALE.name()
+                );
 
                 System.out.println("Number of events by OrganizerId: " + eventsByOrganizerId.size());
 
@@ -218,7 +235,7 @@ public class EventServiceImpl implements EventService {
 
         Set<Event> filteredEvents = new HashSet<>();
 
-        for (Event event : allEvents){
+        for (Event event : allEvents) {
 
             if(event.getOrganizerId() != null && constraints.getOrganizerId() != null){
                 if(event.getOrganizerId() == constraints.getOrganizerId())
@@ -228,6 +245,23 @@ public class EventServiceImpl implements EventService {
             if(event.getVenueId() != null && constraints.getVenueId() != null){
                 if(event.getVenueId() == constraints.getVenueId())
                     filteredEvents.add(event);
+            }
+
+
+            LocalDate eventDate = DateUtil.formatEventDate(event.getEventDate());
+
+            if(constraints.getDateRangeBeginning() != null){
+                LocalDate dateRangeBeggining = DateUtil.formatEventDate(constraints.getDateRangeBeginning());
+                if(eventDate.isBefore(dateRangeBeggining)){
+                    filteredEvents.remove(event);
+                }
+            }
+
+            if(constraints.getDateRangeEnding() != null){
+                LocalDate dateRangeEnding = DateUtil.formatEventDate(constraints.getDateRangeEnding());
+                if(eventDate.isAfter(dateRangeEnding)){
+                    filteredEvents.remove(event);
+                }
             }
 
         }
