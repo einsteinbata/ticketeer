@@ -41,6 +41,8 @@ public class EventController {
     @GetMapping(path = "/list")
     public ResponseEntity<GetEventsOutput> getEvents(@RequestBody EventSearchConstraints constraints){
 
+        //TODO Add Swagger documentation
+
         GetEventsOutput getEventsOutput = null;
 
         try{

@@ -108,10 +108,13 @@
 			<properties>
 				<env.name>development</env.name>
 				<server.port>8090</server.port>
-				<db.url>jdbc:postgresql://localhost:5432/ticketeer_main</db.url>
+				<db.url>jdbc:postgresql://postgres:5432/ticketeer_main</db.url>
 				<db.username>ticketeer_db</db.username>
 				<db.password>ticketeer</db.password>
 				<db.schema.management>update</db.schema.management>
+				<redis.host>redis</redis.host>
+				<redis.port>6379</redis.port>
+				<redis.default.ttl>60</redis.default.ttl>
 			</properties>
 		</profile>
 
@@ -120,10 +123,13 @@
 			<properties>
 				<env.name>production</env.name>
 				<server.port>8090</server.port>
-				<db.url>jdbc:postgresql://localhost:5432/ticketeer_main</db.url>
+				<db.url>jdbc:postgresql://postgres:5432/ticketeer_main</db.url>
 				<db.username>ticketeer_db</db.username>
 				<db.password>ticketeer</db.password>
 				<db.schema.management>validate</db.schema.management>
+				<redis.host>redis</redis.host>
+				<redis.port>6379</redis.port>
+				<redis.default.ttl>60</redis.default.ttl>
 			</properties>
 		</profile>
 
